@@ -48,5 +48,26 @@ k6 run --vus 10 --duration 60s performance-tests/income.js
 k6 run --vus 10 --duration 60s performance-tests/expense.js
 ````
 
+### Inspecting the bankaccount database
+
+```
+docker exec -it bankaccount-postgres psql -U postgres -d bankaccount
+
+bankaccount=# \dt
+                  List of relations
+ Schema |         Name          | Type  |    Owner
+--------+-----------------------+-------+-------------
+ public | flyway_schema_history | table | bankaccount
+ public | transactions          | table | bankaccount
+(2 rows)
+
+bankaccount=# SELECT * from transactions;
+                  id                  | account_id | description |  type   | value
+--------------------------------------+------------+-------------+---------+-------
+ c02ac0e7-d14c-4b91-825c-27512ee6ce7a | wesley     | Salary      | INCOME  |  1000
+ b420d944-eeaf-4403-9fc5-189eb9b244b3 | wesley     | New Bike    | EXPENSE |   250
+(2 rows)
+```
+
 ### Contributing
 I'd love to have a frontend for it! [Please reach me out if you got interested](MailTo:wesley.fuchter@gmail.com)
